@@ -2,8 +2,6 @@
 
 from __future__ import unicode_literals
 
-from slugify import slugify as python_slugify
-
 from django.db.models.fields import SlugField
 from django.utils.encoding import smart_text
 from django.utils.text import slugify
@@ -40,10 +38,9 @@ class AutoSlugField(SlugField):
         if value is None:
             return default
 
-        # TODO: Django 1.9 will support unicode slugs
         if settings.ST_UNICODE_SLUGS:
             # TODO: mark as safe?
-            slug = python_slugify(smart_text(value))
+            slug = slugify(smart_text(value), allow_unicode=True)
         else:
             slug = slugify(smart_text(value))
 
